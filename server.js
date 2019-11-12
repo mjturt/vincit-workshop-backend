@@ -33,7 +33,13 @@ fastify.post("/labels", async (request, reply) => {
 
 fastify.post("/faces", async (request, reply) => {
   const faces = await fetchFaces(new Buffer(request.body.image.split(",")[1], "base64"))
-  reply.send({ faces });
+    console.log(faces)
+    console.log(faces[0].joyLikelihood)
+    if (faces[0].joyLikelihood === 'VERY_LIKELY') {
+        reply.send({ success: true });
+    } else {
+        reply.send({ success: false });
+    }
 });
 
 fastify.post("/logos", async (request, reply) => {
